@@ -20,7 +20,7 @@ unzip packer_1.7.2_linux_amd64.zip
     -var 'secret_key=${var.secret_key}' \
     -force \
     -color=false \
-    ncloud.pkr.hcl
+    ./pkr_hcl
 EOH
   }
 }
