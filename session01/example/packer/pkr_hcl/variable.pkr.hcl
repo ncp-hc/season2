@@ -8,7 +8,7 @@ variable "secret_key" {
   default = ""
 }
 
-variable "image_name_prefix" {
+variable "image_name" {
   type    = string
   default = "test"
 }
