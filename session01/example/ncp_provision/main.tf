@@ -30,9 +30,9 @@ output "image_name" {
 //   zone = ncloud_server.server.zone
 // }
 
-// data "ncloud_member_server_image" "prod" {
-//  name_regex = "/${data.terraform_remote_state.image_name.outputs.image_name}/"
-// }
+data "ncloud_member_server_image" "prod" {
+ name_regex = data.terraform_remote_state.image_name.outputs.image_name
+}
 
 // resource "ncloud_server" "server" {
 //   name                      = "${var.server_name}${random_id.id.hex}"
