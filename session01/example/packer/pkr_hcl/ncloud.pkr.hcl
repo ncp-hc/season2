@@ -29,7 +29,7 @@ build {
 
   provisioner "shell" {
     inline = [
-      "yum update",
+      "yum clean all",
       "yum -y install epel-release",
       "yum -y install python3",
       "yum -y install python-pip",
