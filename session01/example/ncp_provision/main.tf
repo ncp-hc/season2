@@ -8,3 +8,7 @@ data "terraform_remote_state" "image_name" {
     }
   }
 }
+
+output "image_name" {
+    value = terraform_remote_state.image_name.outputs.image_name
+}
