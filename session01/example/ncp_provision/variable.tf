@@ -13,3 +13,12 @@ variable "login_key_name" {
 variable "server_name" {
   default = "tf-vmgputest-vm"
 }
+
+variable "region" {
+  default = "KR"
+}
+
+variable "zone" {
+  default = "KR-2"
+}
+

@@ -59,10 +59,10 @@ resource "null_resource" "host_provisioner" {
     host     = ncloud_public_ip.public_ip.public_ip
     user     = "root"
     port     = "22" 
-    password = data.ncloud_root_password.pwd.root_password
+    password = data.ncloud_root_password.rootpwd.root_password
   }
 }
 
 output "cn_host_pw" {
-  value = "sshpass -p '${data.ncloud_root_password.pwd.root_password}' ssh root@${ncloud_public_ip.public_ip.public_ip} -oStrictHostKeyChecking=no"
+  value = "sshpass -p '${data.ncloud_root_password.rootpwd.root_password}' ssh root@${ncloud_public_ip.public_ip.public_ip} -oStrictHostKeyChecking=no"
 }
