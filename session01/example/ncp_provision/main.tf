@@ -13,7 +13,7 @@ output "image_name" {
     value = data.terraform_remote_state.image_name.outputs.image_name
 }
 output "image_no" {
-    value = data.ncloud_member_server_images.prod.0.no
+    value = data.ncloud_member_server_images.prod
 }
 
 // resource "random_id" "id" {
