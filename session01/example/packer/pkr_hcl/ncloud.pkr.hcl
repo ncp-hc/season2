@@ -30,7 +30,7 @@ build {
   provisioner "shell" {
     inline = [
       "wget https://repo.anaconda.com/archive/Anaconda3-2021.05-Linux-x86_64.sh",
-      "echo 'y' | sh Anaconda3-2021.05-Linux-x86_64.sh",
+      "echo 'yes' | sh Anaconda3-2021.05-Linux-x86_64.sh",
       "conda update conda",
       "systemctl enable jupyter",
       "systemctl start jupyter"
