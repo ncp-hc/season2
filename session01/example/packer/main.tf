@@ -16,8 +16,8 @@ unzip ./packer_1.7.2_linux_amd64.zip
 ./packer init ./ncloud.pkr.hcl
 ./packer build \
     -var 'image_name=${local.last_image_name}' \
-    -var 'access_key=${var.access_key}' \
-    -var 'secret_key=${var.secret_key}' \
+    -var 'access_key=$${NCP_ACCESS_KEY}' \
+    -var 'secret_key=$${NCP_SECRET_KEY}' \
     -force \
     -color=false \
     .
