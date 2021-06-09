@@ -13,6 +13,7 @@ resource "null_resource" "run_packer" {
 cd ./pkr_hcl
 unzip ./packer_1.7.2_linux_amd64.zip
 echo $${NCP_ACCESS_KEY}
+echo $${NCP_SECRET_KEY}
 ./packer version
 ./packer init ./ncloud.pkr.hcl
 ./packer build \
