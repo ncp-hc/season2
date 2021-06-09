@@ -10,7 +10,7 @@ data "terraform_remote_state" "image_name" {
 }
 
 output "image_name" {
-    value = terraform_remote_state.image_name.outputs.image_name
+    value = data.terraform_remote_state.image_name.outputs.image_name
 }
 
 resource "random_id" "id" {
@@ -31,7 +31,7 @@ data "ncloud_port_forwarding_rules" "rules" {
 }
 
 data "ncloud_member_server_image" "prod" {
- name_regex = teraform_remote_state.image_name.outputs.image_name
+ name_regex = data.teraform_remote_state.image_name.outputs.image_name
 }
 
 resource "ncloud_server" "server" {
