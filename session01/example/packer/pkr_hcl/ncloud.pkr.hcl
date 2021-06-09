@@ -29,11 +29,14 @@ build {
 
   provisioner "shell" {
     inline = [
-      "wget https://repo.anaconda.com/archive/Anaconda3-2021.05-Linux-x86_64.sh",
-      "yes | sh Anaconda3-2021.05-Linux-x86_64.sh",
-      "conda update conda",
-      "systemctl enable jupyter",
-      "systemctl start jupyter"
+      "yum -y install epel-release",
+      "yum -y install python3",
+      "yum -y install python-pip",
+      "pip3 install --upgrade pip",
+      "adduser jupyter",
+      "su - jupyter",
+      "pip3 install --user jupyter jupyter",
+      "jupyter notebook --ip='*' --NotebookApp.token='' --NotebookApp.password='' --port=8080 --no-browser"
     ]
   }
 }

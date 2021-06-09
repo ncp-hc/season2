@@ -4,8 +4,8 @@ Description=Jupyter Notebook
 [Service]
 Type=simple
 PIDFile=/run/jupyter.pid
-ExecStart=/root/anaconda3/jupyter notebook --allow-root
-User=root
+ExecStart=/usr/local/bin/jupyter notebook --ip='*' --NotebookApp.token='' --NotebookApp.password='' --port=8080 --no-browser
+User=jupyter
 Group=root
 Restart=always
 RestartSec=10
