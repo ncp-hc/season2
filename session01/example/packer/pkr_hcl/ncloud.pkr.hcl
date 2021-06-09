@@ -36,7 +36,8 @@ build {
       "adduser jupyter",
       "su - jupyter",
       "pip3 install --user jupyter jupyter",
-      "jupyter notebook --ip='*' --NotebookApp.token='' --NotebookApp.password='' --port=8080 --no-browser"
+      "systemctl enable jupyter",
+      "systemctl start jupyter"
     ]
   }
 }
