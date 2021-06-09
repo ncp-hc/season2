@@ -22,9 +22,18 @@ source "ncloud" "example-linux" {
 build {
   sources = ["source.ncloud.example-linux"]
 
+  provisioner "file" {
+    source = "jupyter.service"
+    destination = "/etc/systemd/system/jupyter.service"
+  }
+
   provisioner "shell" {
     inline = [
-      "echo Connected via SSM at '${build.User}@${build.Host}:${build.Port}'"
+      "wget https://repo.anaconda.com/archive/Anaconda3-2021.05-Linux-x86_64.sh",
+      "echo 'y' | sh Anaconda3-2021.05-Linux-x86_64.sh",
+      "conda update conda",
+      "systemctl enable jupyter"
+      "systemctl start jupyter"
     ]
   }
 }
