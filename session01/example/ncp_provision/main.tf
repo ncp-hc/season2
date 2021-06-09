@@ -31,7 +31,7 @@ data "ncloud_port_forwarding_rules" "rules" {
 }
 
 data "ncloud_member_server_image" "prod" {
- name_regex = data.teraform_remote_state.image_name.outputs.image_name
+ name_regex = "/${data.teraform_remote_state.image_name.outputs.image_name}/"
 }
 
 resource "ncloud_server" "server" {
@@ -65,4 +65,8 @@ resource "null_resource" "host_provisioner" {
 
 output "cn_host_pw" {
   value = "sshpass -p '${data.ncloud_root_password.rootpwd.root_password}' ssh root@${ncloud_public_ip.public_ip.public_ip} -oStrictHostKeyChecking=no"
+}
+
+output "remote_image_name" {
+    value = data.teraform_remote_state.image_name.outputs.image_name
 }
