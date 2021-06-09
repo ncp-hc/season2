@@ -31,7 +31,11 @@ output "image_name" {
 // }
 
 data "ncloud_member_server_images" "prod" {
- name_regex = data.terraform_remote_state.image_name.outputs.image_name
+ #name_regex = data.terraform_remote_state.image_name.outputs.image_name
+ filter {
+    name = "name"
+    values = [data.terraform_remote_state.image_name.outputs.image_name]
+  }
 }
 
 // resource "ncloud_server" "server" {
