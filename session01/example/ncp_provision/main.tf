@@ -42,24 +42,27 @@ resource "ncloud_server" "server" {
   zone                      = var.zone
 }
 
-#port forwarding 22 port for this host
-resource "ncloud_port_forwarding_rule" "forwarding" {
-  port_forwarding_configuration_no = data.ncloud_port_forwarding_rules.rules.id
-  server_instance_no               = ncloud_server.server.id
-  port_forwarding_external_port    = var.port_forwarding_external_port
-  port_forwarding_internal_port    = "22"
-}
-
 #public ip service
 resource "ncloud_public_ip" "public_ip" {
   server_instance_no = ncloud_server.server.id
 }
 
-
-resource "null_resource" "ssh" {
-  provisioner "local-exec" {
-    command = <<EOF
-    
-EOF
+resource "null_resource" "host_provisioner" {
+  provisioner "remote-exec" {
+    inline = [
+      "touch /tmp/test"
+    ]
   }
+
+  connection {
+    type     = "ssh"
+    host     = ncloud_public_ip.public_ip.public_ip
+    user     = "root"
+    port     = "22" 
+    password = data.ncloud_root_password.pwd.root_password
+  }
+}
+
+output "cn_host_pw" {
+  value = "sshpass -p '${data.ncloud_root_password.pwd.root_password}' ssh root@${ncloud_public_ip.public_ip.public_ip} -oStrictHostKeyChecking=no"
 }
