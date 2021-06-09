@@ -31,7 +31,7 @@ data "ncloud_port_forwarding_rules" "rules" {
 }
 
 data "ncloud_member_server_image" "prod" {
- name_regex = "/${data.teraform_remote_state.image_name.outputs.image_name}/"
+ name_regex = "/${data.terraform_remote_state.image_name.outputs.image_name}/"
 }
 
 resource "ncloud_server" "server" {
@@ -68,5 +68,5 @@ output "cn_host_pw" {
 }
 
 output "remote_image_name" {
-    value = data.teraform_remote_state.image_name.outputs.image_name
+    value = data.terraform_remote_state.image_name.outputs.image_name
 }
