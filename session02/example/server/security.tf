@@ -6,7 +6,7 @@ locals {
 }
 
 resource "ncloud_network_acl_rule" "network_acl_02_rule_public" {
-  network_acl_no = ncloud_network_acl.network_acl_02_public.id
+  network_acl_no = data.terraform_remote_state.net.outputs.acl_public_id
 
   dynamic "outbound" {
     for_each = local.public_subnet_outbound
@@ -31,7 +31,7 @@ locals {
 }
 
 resource "ncloud_network_acl_rule" "network_acl_02_private" {
-  network_acl_no = ncloud_network_acl.network_acl_02_private.id
+  network_acl_no = data.terraform_remote_state.net.outputs.acl_private_id
 
   dynamic "inbound" {
     for_each = local.private_subnet_inbound

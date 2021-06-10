@@ -36,10 +36,6 @@ resource "ncloud_network_acl" "network_acl_02_public" {
   name   = "${var.name_scn02}-public"
 }
 
-output "acl_public_id" {
-  value = ncloud_network_acl.network_acl_02_public.id
-}
-
 resource "ncloud_network_acl" "network_acl_02_private" {
   vpc_no = ncloud_vpc.vpc_scn_02.id
   name   = "${var.name_scn02}-private"
