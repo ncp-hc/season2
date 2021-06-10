@@ -41,7 +41,7 @@ resource "ncloud_public_ip" "public_ip_scn_02" {
 
 data "ncloud_root_password" "pwd" {
   server_instance_no = ncloud_server.server_scn_02_public.id
-  private_key        = ncloud_login_key.key.private_key
+  private_key        = ncloud_login_key.key_scn_02.private_key
 }
 
 output "cn_host_pw" {
