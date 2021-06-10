@@ -1,24 +1,24 @@
-# Network ACL Rule
-locals {
-  public_subnet_outbound = [
-    [4, "TCP", "${ncloud_server.server_scn_02_public.network_interface[0].private_ip}/32", "8080", "ALLOW"],
-  ]
-}
+// # Network ACL Rule
+// locals {
+//   public_subnet_outbound = [
+//     [4, "TCP", "${ncloud_server.server_scn_02_private.network_interface[0].private_ip}/32", "8080", "ALLOW"],
+//   ]
+// }
 
-resource "ncloud_network_acl_rule" "network_acl_02_rule_public" {
-  network_acl_no = data.terraform_remote_state.net.outputs.acl_public_id
+// resource "ncloud_network_acl_rule" "network_acl_02_rule_public" {
+//   network_acl_no = data.terraform_remote_state.net.outputs.acl_public_id
 
-  dynamic "outbound" {
-    for_each = local.public_subnet_outbound
-    content {
-      priority    = outbound.value[0]
-      protocol    = outbound.value[1]
-      ip_block    = outbound.value[2]
-      port_range  = outbound.value[3]
-      rule_action = outbound.value[4]
-    }
-  }
-}
+//   dynamic "outbound" {
+//     for_each = local.public_subnet_outbound
+//     content {
+//       priority    = outbound.value[0]
+//       protocol    = outbound.value[1]
+//       ip_block    = outbound.value[2]
+//       port_range  = outbound.value[3]
+//       rule_action = outbound.value[4]
+//     }
+//   }
+// }
 
 // locals {
 //   private_subnet_inbound = [
