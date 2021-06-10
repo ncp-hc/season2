@@ -1,5 +1,5 @@
-variable name_scn02 {
-  default = "tf-scn02"
+variable name_prerix {
+  default = "ncp-hc"
 }
 
 variable client_ip {

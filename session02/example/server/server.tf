@@ -13,13 +13,13 @@ data "terraform_remote_state" "net" {
 }
 
 resource "ncloud_login_key" "key_scn_02" {
-  key_name = var.name_scn02
+  key_name = var.name_prerix
 }
 
 # Server
 resource "ncloud_server" "server_scn_02_public" {
   subnet_no                 = data.terraform_remote_state.net.outputs.subnet_public_id
-  name                      = "${var.name_scn02}-public"
+  name                      = "${var.name_prerix}-public"
   server_image_product_code = "SW.VSVR.OS.LNX64.CNTOS.0703.B050"
   login_key_name            = ncloud_login_key.key_scn_02.key_name
   server_product_code       = "SVR.VSVR.STAND.C002.M008.NET.SSD.B050.G002"
@@ -27,7 +27,7 @@ resource "ncloud_server" "server_scn_02_public" {
 
 // resource "ncloud_server" "server_scn_02_private" {
 //   subnet_no                 = ncloud_subnet.subnet_scn_02_private.id
-//   name                      = "${var.name_scn02}-private"
+//   name                      = "${var.name_prerix}-private"
 //   server_image_product_code = "SW.VSVR.OS.LNX64.CNTOS.0703.B050"
 //   login_key_name            = ncloud_login_key.key_scn_02.key_name
 //   //server_product_code       = "SVR.VSVR.STAND.C002.M008.NET.SSD.B050.G002"
@@ -36,5 +36,5 @@ resource "ncloud_server" "server_scn_02_public" {
 # Public IP
 resource "ncloud_public_ip" "public_ip_scn_02" {
   server_instance_no = ncloud_server.server_scn_02_public.id
-  description        = "for ${var.name_scn02}"
+  description        = "for ${var.name_prerix}"
 }
