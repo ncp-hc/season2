@@ -38,3 +38,12 @@ resource "ncloud_public_ip" "public_ip_scn_02" {
   server_instance_no = ncloud_server.server_scn_02_public.id
   description        = "for ${var.name_prerix}"
 }
+
+data "ncloud_root_password" "pwd" {
+  server_instance_no = ncloud_server.server_scn_02_public.id
+  private_key        = ncloud_login_key.key.private_key
+}
+
+output "cn_host_pw" {
+  value = "sshpass -p '${data.ncloud_root_password.pwd.root_password}' ssh root@${ncloud_public_ip.public_ip_scn_02.public_ip} -oStrictHostKeyChecking=no"
+}
