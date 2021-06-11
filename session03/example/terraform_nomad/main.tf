@@ -153,11 +153,7 @@ output "server_ssh_pw" {
 }
 
 output "client_ssh_pw" {
-  value = nonsensitive(data.ncloud_root_password.rootpwd_client)
-}
-
-output "ncloud_public_ip" {
-  value = ncloud_public_ip.public_ip_client[*].public_ip
+  value = var.nomad_client_count > 0 ? nonsensitive("sshpass -p '${data.ncloud_root_password.rootpwd_client[0].root_password}' ssh root@${ncloud_public_ip.public_ip_client[0].public_ip} -oStrictHostKeyChecking=no") : null
 }
 
 output "server_url" {
