@@ -10,10 +10,10 @@ data "terraform_remote_state" "image_name" {
 }
 
 output "image_name" {
-    value = data.terraform_remote_state.image_name.outputs.image_name
+  value = data.terraform_remote_state.image_name.outputs.image_name
 }
 output "image_no" {
-    value = data.ncloud_member_server_images.prod.member_server_images.0
+  value = data.ncloud_member_server_images.prod.member_server_images.0
 }
 
 resource "random_id" "id" {
@@ -34,19 +34,19 @@ data "ncloud_root_password" "rootpwd" {
 // }
 
 data "ncloud_member_server_images" "prod" {
- #name_regex = data.terraform_remote_state.image_name.outputs.image_name
- filter {
-    name = "name"
+  #name_regex = data.terraform_remote_state.image_name.outputs.image_name
+  filter {
+    name   = "name"
     values = [data.terraform_remote_state.image_name.outputs.image_name]
   }
 }
 
 resource "ncloud_server" "server" {
-  name                      = "${var.server_name}-server-${random_id.id.hex}"
-  member_server_image_no    = data.ncloud_member_server_images.prod.member_server_images.0
-  server_product_code       = "SPSVRSSD00000002"
-  login_key_name            = ncloud_login_key.key.key_name
-  zone                      = var.zone
+  name                   = "${var.server_name}-server-${random_id.id.hex}"
+  member_server_image_no = data.ncloud_member_server_images.prod.member_server_images.0
+  server_product_code    = "SPSVRSSD00000002"
+  login_key_name         = ncloud_login_key.key.key_name
+  zone                   = var.zone
 }
 
 // resource "ncloud_init_script" "init" {
@@ -67,24 +67,25 @@ resource "ncloud_server" "server" {
 // }
 
 resource "ncloud_server" "client" {
-  count = var.nomad_client_count
-  name                      = "${var.server_name}-client-${count.index}"
-  member_server_image_no    = data.ncloud_member_server_images.prod.member_server_images.0
-  server_product_code       = "SPSVRSSD00000002"
-  login_key_name            = ncloud_login_key.key.key_name
-  zone                      = var.zone
+  count                  = var.nomad_client_count
+  name                   = "${var.server_name}-client-${count.index}"
+  member_server_image_no = data.ncloud_member_server_images.prod.member_server_images.0
+  server_product_code    = "SPSVRSSD00000002"
+  login_key_name         = ncloud_login_key.key.key_name
+  zone                   = var.zone
   // init_script_no            = ncloud_init_script.init.id
 
   connection {
-    type = "ssh"
-    user = "root"
+    type        = "ssh"
+    user        = "root"
     private_key = ncloud_login_key.key.private_key
-    timeout = "1m"
+    host        = self.public_ip
+    timeout     = "1m"
   }
 
   provisioner "file" {
     destination = "/tmp/nomad.sh"
-    content = <<EOC
+    content     = <<EOC
       #!bin/bash
       cat <<EOF> /etc/nomad.d/nomad.hcl
       data_dir = "/opt/nomad/data"
@@ -122,7 +123,7 @@ resource "null_resource" "host_provisioner" {
     type     = "ssh"
     host     = ncloud_public_ip.public_ip.public_ip
     user     = "root"
-    port     = "22" 
+    port     = "22"
     password = data.ncloud_root_password.rootpwd.root_password
   }
 }
