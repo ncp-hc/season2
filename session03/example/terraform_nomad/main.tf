@@ -112,25 +112,22 @@ resource "null_resource" "run_sed" {
   }
 
   provisioner "file" {
-    destination = "/tmp/nomad.sh"
+    destination = "/etc/nomad.d/nomad.hcl"
     content     = <<EOC
-      #!bin/bash
-      cat <<EOF> /etc/nomad.d/nomad.hcl
-      data_dir = "/opt/nomad/data"
-      bind_addr = "0.0.0.0"
+data_dir = "/opt/nomad/data"
+bind_addr = "0.0.0.0"
 
-      client {
-        enabled = true
-        servers = ["${ncloud_server.server.private_ip}:4646"]
-      }
-      EOF
-      systemctl restart nomad
+client {
+  enabled = true
+  servers = ["${ncloud_server.server.private_ip}"]
+}
     EOC
   }
 
   provisioner "remote-exec" {
     inline = [
       "bash /tmp/nomad.sh",
+      "systemctl restart nomad"
     ]
   }
 }
