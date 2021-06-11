@@ -23,7 +23,7 @@ build {
   sources = ["source.ncloud.nomad-server"]
 
   provisioner "file" {
-    source = "nomad_server.service"
+    source = "nomad.service"
     destination = "/etc/systemd/system/nomad.service"
   }
 
