@@ -7,11 +7,11 @@ variable "secret_key" {
 }
 
 variable "login_key_name" {
-  default = "tf-gputest-key"
+  default = "tf-nomad-key"
 }
 
 variable "server_name" {
-  default = "tf-vmgputest-vm"
+  default = "tf-nomad-vm"
 }
 
 variable "region" {
