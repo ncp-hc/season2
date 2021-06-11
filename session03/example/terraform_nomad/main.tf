@@ -126,7 +126,6 @@ client {
 
   provisioner "remote-exec" {
     inline = [
-      "bash /tmp/nomad.sh",
       "systemctl restart nomad"
     ]
   }
