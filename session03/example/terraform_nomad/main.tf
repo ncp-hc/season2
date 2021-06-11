@@ -74,12 +74,33 @@ resource "ncloud_server" "client" {
   login_key_name         = ncloud_login_key.key.key_name
   zone                   = var.zone
   // init_script_no            = ncloud_init_script.init.id
+}
+
+#public ip service
+resource "ncloud_public_ip" "public_ip" {
+  server_instance_no = ncloud_server.server.id
+}
+
+resource "ncloud_public_ip" "public_ip_client" {
+  depends_on = [ncloud_server.client]
+  count = var.nomad_client_count 
+  server_instance_no = ncloud_server.client.${count.index}.id
+}
+
+resource "null_resource" "run_packer" {
+
+  depends_on = [ncloud_public_ip.public_ip_client]
+  count = var.nomad_client_count
+
+  triggers = {
+    always_run = timestamp()
+  }
 
   connection {
     type        = "ssh"
     user        = "root"
     private_key = ncloud_login_key.key.private_key
-    host        = self.public_ip
+    host        = ncloud_public_ip.public_ip_client.${count.index}.public_ip
     timeout     = "1m"
   }
 
@@ -105,11 +126,6 @@ resource "ncloud_server" "client" {
       "bash /tmp/nomad.sh",
     ]
   }
-}
-
-#public ip service
-resource "ncloud_public_ip" "public_ip" {
-  server_instance_no = ncloud_server.server.id
 }
 
 resource "null_resource" "host_provisioner" {
