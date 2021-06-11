@@ -99,7 +99,7 @@ resource "null_resource" "run_sed" {
   count      = var.nomad_client_count
 
   triggers = {
-    always_run = ncloud_public_ip.public_ip_client[count.index].id
+    always_run = timestamp()
   }
 
   connection {
@@ -153,7 +153,7 @@ output "server_ssh_pw" {
 }
 
 output "client_ssh_pw" {
-  value = nonsensitive("sshpass -p '${data.ncloud_root_password.rootpwd_client[0].root_password}' ssh root@${ncloud_public_ip.public_ip_client[0].public_ip} -oStrictHostKeyChecking=no")
+  value = nonsensitive("sshpass -p '${data.ncloud_root_password.rootpwd_client[*].root_password}' ssh root@${ncloud_public_ip.public_ip_client[*].public_ip} -oStrictHostKeyChecking=no")
 }
 
 output "server_url" {
