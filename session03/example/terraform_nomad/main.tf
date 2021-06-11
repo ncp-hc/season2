@@ -29,9 +29,9 @@ data "ncloud_root_password" "rootpwd" {
   private_key        = ncloud_login_key.key.private_key
 }
 
-data "ncloud_port_forwarding_rules" "rules" {
-  zone = ncloud_server.server.zone
-}
+// data "ncloud_port_forwarding_rules" "rules" {
+//   zone = ncloud_server.server.zone
+// }
 
 data "ncloud_member_server_images" "prod" {
  #name_regex = data.terraform_remote_state.image_name.outputs.image_name
@@ -70,6 +70,10 @@ resource "null_resource" "host_provisioner" {
   }
 }
 
-output "cn_host_pw" {
+output "server_ssh_pw" {
   value = nonsensitive("sshpass -p '${data.ncloud_root_password.rootpwd.root_password}' ssh root@${ncloud_public_ip.public_ip.public_ip} -oStrictHostKeyChecking=no")
+}
+
+output "server_url" {
+  value = "http://${ncloud_public_ip.public_ip.public_ip}:4646"
 }
