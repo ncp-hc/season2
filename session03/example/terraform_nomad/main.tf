@@ -107,7 +107,7 @@ resource "null_resource" "run_sed" {
     host     = ncloud_public_ip.public_ip_client[count.index].public_ip
     user     = "root"
     port     = "22"
-    password = data.ncloud_root_password.rootpwd.root_password
+    password = data.ncloud_root_password.rootpwd_client[count.index].root_password
     timeout  = "30s"
   }
 
