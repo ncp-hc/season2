@@ -14,6 +14,10 @@ variable "server_name" {
   default = "tf-nomad-vm"
 }
 
+variable "nomad_client_count" {
+  default = 0
+}
+
 variable "region" {
   default = "KR"
 }

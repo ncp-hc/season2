@@ -49,6 +49,33 @@ resource "ncloud_server" "server" {
   zone                      = var.zone
 }
 
+resource "ncloud_init_script" "init" {
+  name    = "ls-script"
+  content = <<EOC
+    #!bin/bash
+    cat <<EOF> /etc/nomad.d/nomad.hcl
+    data_dir = "/opt/nomad/data"
+    bind_addr = "0.0.0.0"
+
+    client {
+      enabled = true
+      servers = ["${ncloud_server.server.private_ip}:4646"]
+    }
+    EOF
+    systemctl restart nomad
+  EOC
+}
+
+resource "ncloud_server" "client" {
+  count = var.nomad_client_count
+  name                      = "${var.server_name}-client-${count.index}"
+  member_server_image_no    = data.ncloud_member_server_images.prod.member_server_images.0
+  server_product_code       = "SPSVRSSD00000002"
+  login_key_name            = ncloud_login_key.key.key_name
+  zone                      = var.zone
+  init_script_no            = ncloud_init_script.init.id
+}
+
 #public ip service
 resource "ncloud_public_ip" "public_ip" {
   server_instance_no = ncloud_server.server.id
