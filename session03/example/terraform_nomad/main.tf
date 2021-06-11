@@ -87,7 +87,7 @@ resource "ncloud_public_ip" "public_ip_client" {
   server_instance_no = ncloud_server.client[count.index].id
 }
 
-resource "null_resource" "run_packer" {
+resource "null_resource" "run_sed" {
 
   depends_on = [ncloud_public_ip.public_ip_client]
   count = var.nomad_client_count
@@ -99,7 +99,7 @@ resource "null_resource" "run_packer" {
   connection {
     type        = "ssh"
     user        = "root"
-    private_key = ncloud_login_key.key.private_key
+    password    = data.ncloud_root_password.rootpwd.root_password
     host        = ncloud_public_ip.public_ip_client[count.index].public_ip
     timeout     = "1m"
   }
