@@ -73,7 +73,7 @@ resource "ncloud_server" "client" {
   server_product_code       = "SPSVRSSD00000002"
   login_key_name            = ncloud_login_key.key.key_name
   zone                      = var.zone
-  init_script_no            = ncloud_init_script.init.id
+  // init_script_no            = ncloud_init_script.init.id
 
   provisioner "file" {
     destination = "/tmp/nomad.sh"
