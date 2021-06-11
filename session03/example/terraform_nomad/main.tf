@@ -29,6 +29,12 @@ data "ncloud_root_password" "rootpwd" {
   private_key        = ncloud_login_key.key.private_key
 }
 
+data "ncloud_root_password" "rootpwd_client" {
+  count              = var.nomad_client_count
+  server_instance_no = ncloud_server.client[count.index].id
+  private_key        = ncloud_login_key.key.private_key
+}
+
 // data "ncloud_port_forwarding_rules" "rules" {
 //   zone = ncloud_server.server.zone
 // }
@@ -82,15 +88,15 @@ resource "ncloud_public_ip" "public_ip" {
 }
 
 resource "ncloud_public_ip" "public_ip_client" {
-  depends_on = [ncloud_server.client]
-  count = var.nomad_client_count 
+  depends_on         = [ncloud_server.client]
+  count              = var.nomad_client_count
   server_instance_no = ncloud_server.client[count.index].id
 }
 
 resource "null_resource" "run_sed" {
 
   depends_on = [ncloud_public_ip.public_ip_client]
-  count = var.nomad_client_count
+  count      = var.nomad_client_count
 
   triggers = {
     always_run = ncloud_public_ip.public_ip_client[count.index].id
