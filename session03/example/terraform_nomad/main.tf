@@ -44,7 +44,7 @@ data "ncloud_member_server_images" "prod" {
 resource "ncloud_server" "server" {
   name                      = "${var.server_name}${random_id.id.hex}"
   member_server_image_no    = data.ncloud_member_server_images.prod.member_server_images.0
-  server_product_code       = "SVR.VSVR.STAND.C002.M008.NET.SSD.B050.G002"
+  server_product_code       = "SPSVRSSD00000002"
   login_key_name            = ncloud_login_key.key.key_name
   zone                      = var.zone
 }

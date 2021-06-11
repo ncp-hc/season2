@@ -11,7 +11,7 @@ source "ncloud" "nomad-server" {
   access_key                = var.access_key
   secret_key                = var.secret_key
   server_image_product_code = "SPSW0LINUX000139"
-  server_product_code       = "SVR.VSVR.STAND.C002.M008.NET.SSD.B050.G002"
+  server_product_code       = "SPSVRSSD00000002"
   server_image_name         = var.image_name
   server_image_description  = "server image description"
   region                    = "Korea"
