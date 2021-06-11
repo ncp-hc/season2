@@ -153,7 +153,7 @@ output "server_ssh_pw" {
 }
 
 output "client_ssh_pw" {
-  value = nonsensitive(data.ncloud_root_password.rootpwd_client[*].root_password)
+  value = nonsensitive(data.ncloud_root_password.rootpwd_client)
 }
 
 output "ncloud_public_ip" {
