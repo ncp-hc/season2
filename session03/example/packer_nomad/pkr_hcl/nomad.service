@@ -1,0 +1,20 @@
+[Unit]
+Description=Nomad Deployment Orchestrator
+Documentation=https://www.nomadproject.io/
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=root
+Group=root
+ExecStart=/bin/nomad agent -config=/etc/nomad.d/nomad.hcl
+
+ExecReload=/bin/kill -HUP $MAINPID
+KillSignal=SIGINT
+TimeoutStopSec=5
+Restart=on-failure
+SyslogIdentifier=nomad
+
+[Install]
+WantedBy=multi-user.target
