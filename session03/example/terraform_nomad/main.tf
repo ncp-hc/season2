@@ -73,6 +73,7 @@ resource "ncloud_server" "server" {
 // }
 
 resource "ncloud_server" "client" {
+  depends_on = [ncloud_server.server]
   count                  = var.nomad_client_count
   name                   = "${var.server_name}-client-${count.index}"
   member_server_image_no = data.ncloud_member_server_images.prod.member_server_images.0
@@ -88,7 +89,6 @@ resource "ncloud_public_ip" "public_ip" {
 }
 
 resource "ncloud_public_ip" "public_ip_client" {
-  depends_on         = [ncloud_server.client]
   count              = var.nomad_client_count
   server_instance_no = ncloud_server.client[count.index].id
 }
