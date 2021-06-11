@@ -93,15 +93,16 @@ resource "null_resource" "run_sed" {
   count = var.nomad_client_count
 
   triggers = {
-    always_run = timestamp()
+    always_run = ncloud_public_ip.public_ip_client[count.index].id
   }
 
   connection {
-    type        = "ssh"
-    user        = "root"
-    password    = data.ncloud_root_password.rootpwd.root_password
-    host        = ncloud_public_ip.public_ip_client[count.index].public_ip
-    timeout     = "1m"
+    type     = "ssh"
+    host     = ncloud_public_ip.public_ip_client[count.index].public_ip
+    user     = "root"
+    port     = "22"
+    password = data.ncloud_root_password.rootpwd.root_password
+    timeout  = "30s"
   }
 
   provisioner "file" {
