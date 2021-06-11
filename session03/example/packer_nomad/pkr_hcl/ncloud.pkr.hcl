@@ -32,8 +32,9 @@ build {
       "yum clean all",
       "yum install -y epel-release",
       "yum install -y yum-utils",
+      "yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo",
       "yum-config-manager --add-repo https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo",
-      "yum install -y nomad",
+      "yum install -y java-11-openjdk-devel docker-ce docker-ce-cli containerd.io nomad",
       "systemctl enable nomad"
     ]
   }

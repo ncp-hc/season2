@@ -75,6 +75,13 @@ resource "ncloud_server" "client" {
   zone                      = var.zone
   // init_script_no            = ncloud_init_script.init.id
 
+  connection {
+    type = "ssh"
+    user = "root"
+    private_key = ncloud_login_key.key.private_key
+    timeout = "1m"
+  }
+
   provisioner "file" {
     destination = "/tmp/nomad.sh"
     content = <<EOC
