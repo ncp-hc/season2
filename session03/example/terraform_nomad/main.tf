@@ -49,22 +49,22 @@ resource "ncloud_server" "server" {
   zone                      = var.zone
 }
 
-resource "ncloud_init_script" "init" {
-  name    = "ls-script"
-  content = <<EOC
-    #!bin/bash
-    cat <<EOF> /etc/nomad.d/nomad.hcl
-    data_dir = "/opt/nomad/data"
-    bind_addr = "0.0.0.0"
+// resource "ncloud_init_script" "init" {
+//   name    = "ls-script"
+//   content = <<EOC
+//     #!bin/bash
+//     cat <<EOF> /etc/nomad.d/nomad.hcl
+//     data_dir = "/opt/nomad/data"
+//     bind_addr = "0.0.0.0"
 
-    client {
-      enabled = true
-      servers = ["${ncloud_server.server.private_ip}:4646"]
-    }
-    EOF
-    systemctl restart nomad
-  EOC
-}
+//     client {
+//       enabled = true
+//       servers = ["${ncloud_server.server.private_ip}:4646"]
+//     }
+//     EOF
+//     systemctl restart nomad
+//   EOC
+// }
 
 resource "ncloud_server" "client" {
   count = var.nomad_client_count
@@ -74,6 +74,29 @@ resource "ncloud_server" "client" {
   login_key_name            = ncloud_login_key.key.key_name
   zone                      = var.zone
   init_script_no            = ncloud_init_script.init.id
+
+  provisioner "file" {
+    destination = "/tmp/nomad.sh"
+    content = <<EOC
+      #!bin/bash
+      cat <<EOF> /etc/nomad.d/nomad.hcl
+      data_dir = "/opt/nomad/data"
+      bind_addr = "0.0.0.0"
+
+      client {
+        enabled = true
+        servers = ["${ncloud_server.server.private_ip}:4646"]
+      }
+      EOF
+      systemctl restart nomad
+    EOC
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "bash /tmp/nomad.sh",
+    ]
+  }
 }
 
 #public ip service
