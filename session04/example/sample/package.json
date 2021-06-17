@@ -1,15 +1,22 @@
 {
-  "name": "nodejs",
+  "name": "ncp-hc",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
+  "bin": "server.js",
+  "pkg": {
+    "scripts": "*.js"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node server.js",
+    "build": "pkg ."
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "devDependencies": {
+    "pkg": "^4.4.9"
+  },
   "dependencies": {
     "http": "0.0.1-security",
     "node-vault": "^0.9.21"
