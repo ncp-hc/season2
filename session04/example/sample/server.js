@@ -54,7 +54,7 @@ const server = http.createServer(async (req, res) => {
                 <title>NCP x HashiCorp</title>
                 <style>
                 h2 {text-align: center; color: white;}
-                h3 {text-align: center; color: white;}
+                h3 {text-align: center; color: black; background: Lavender; margin: 10px; padding: 10px;}
                 h1 {
                     padding: 60px;
                     text-align: center;
