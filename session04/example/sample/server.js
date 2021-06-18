@@ -1,3 +1,5 @@
+'use strict';
+const ip = require('ip');
 const http = require('http');
 const Vault = require('hashi-vault-js');
 
@@ -41,9 +43,9 @@ const server = http.createServer(async (req, res) => {
         const secret_data = await vault.readKVSecret(token, 'ncp/secret_value');
         const mysql_password_data = await vault.readKVSecret(token, 'ncp/mysql_password');
         const static_data = await vault.readKVSecret(token, 'ncp/static_data');
-        secret_number = secret_data.data.number
-        mysql_password = mysql_password_data.data.password
-        body_color = static_data.data.color
+        const secret_number = secret_data.data.number
+        const mysql_password = mysql_password_data.data.password
+        const body_color = static_data.data.color
         res.statusCode = 200;
         res.setHeader('Content-Type', 'text/html');    
         res.write(`
@@ -65,6 +67,7 @@ const server = http.createServer(async (req, res) => {
                 <h1>Welcome to NCP X Hashicorp</h1>
                 <h2>NaverCloud Platform CI/CD X HashiCorp Vault</h2>
                 <hr>
+                <h3>My IP is ${ip.address()}</h3>
                 <h3>secret_value is ${secret_number}</h3>
                 <h3>mysql_password is ${mysql_password}</h3>
             </body>
