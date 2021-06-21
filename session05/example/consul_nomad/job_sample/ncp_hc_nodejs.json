@@ -1,0 +1,72 @@
+{
+    "Job": {
+        "Datacenters": [
+            "dc1"
+        ],
+        "ID": "ncpxhc_nodejs",
+        "Type": "service",
+        "TaskGroups": [
+            {
+                "Name": "ncpxhc",
+                "Networks": [
+                  {
+                    "DynamicPorts": [
+                      {
+                        "Label": "nodejs",
+                        "To": 3000
+                      }
+                    ]
+                  }
+                ],
+                "Scaling": {
+                    "Min": 1,
+                    "Max": 10,
+                    "Enabled": true
+                },
+                "Services": [
+                    {
+                        "Name": "ncpxhc-nodejs",
+                        "PortLabel": "nodejs",
+                        "Tags": [
+                            "v1",
+                            "ncp",
+                            "hashicorp",
+                            "session5"
+                        ],
+                        "Checks": [
+                            {
+                                "Type": "tcp",
+                                "PortLabel": "nodejs",
+                                "Interval": 10000000000,
+                                "Timeout": 2000000000
+                            }
+                        ]
+                    }
+                ],
+                "Tasks": [
+                    {
+                        "Name": "nodejs",
+                        "Driver": "docker",
+                        "Config": {
+                            "auth": [
+                                {
+                                    "server_address": "nodejstest.kr.ncr.ntruss.com",
+                                    "username": "<ncp_access_key>",
+                                    "password": "<ncp_secret_key>"
+                                }
+                            ],
+                            "ports": [
+                                "nodejs"
+                            ],
+                            "image": "nodejstest.kr.ncr.ntruss.com/serverjs:latest"
+                        },
+                        "Resources": {
+                            "CPU": 200,
+                            "MemoryMB": 256
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+}
