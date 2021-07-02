@@ -32,3 +32,4 @@ build/
 
 dockerAuth.json
 kubeconfig.yaml
+waypoint_token.txt

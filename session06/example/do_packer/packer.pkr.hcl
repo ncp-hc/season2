@@ -42,6 +42,7 @@ build {
     post-processor "docker-push" {
       login_username = var.access_key
       login_password = var.secret_key
+      login          = true
       login_server   = "https://nodejstest.kr.ncr.ntruss.com/"
     }
   }
