@@ -2,22 +2,20 @@
 # docker rm waypoint-server
 # docker volume rm waypoint-server
 # waypoint install -platform=docker -accept-tos
-
-# waypoint install -platform=docker -accept-tos
 # waypoint token new > waypoint_token.txt
 # waypoint init
 # waypoint up
 
 project = "example-java"
 
-runner {
-  enabled = true
+// runner {
+//   enabled = true
 
-  data_source "git" {
-    url  = "https://github.com/ncp-hc/season2.git"
-    path = "session06/example/do_waypoint"
-  }
-}
+//   data_source "git" {
+//     url  = "https://github.com/ncp-hc/season2.git"
+//     path = "session06/example/do_waypoint"
+//   }
+// }
 
 app "example-java" {
 
@@ -48,6 +46,12 @@ app "example-java" {
       kubeconfig = "kubeconfig.yaml"
       image_secret = "regcred"
     }
+    // use "nomad" {
+    //   region     = "global"
+    //   datacenter = "hashistack"
+    //   namespace  = "waypoint"
+    //   replicas   = 1
+    // }
   }
 
   release {
